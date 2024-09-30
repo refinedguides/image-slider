@@ -13,12 +13,8 @@ slides.forEach((slide, index) => {
 
   // create the dot nav buttons
   const btn = document.createElement("button");
-
   btn.classList.add("dot");
-
-  if (index === currentIndex) {
-    btn.classList.add("active");
-  }
+  btn.classList.toggle("active", index === currentIndex);
 
   // handle dot nav click event
   btn.addEventListener("click", () => {
@@ -30,7 +26,7 @@ slides.forEach((slide, index) => {
 });
 
 // start the slider when the page is loaded
-document.addEventListener("DOMContentLoaded", startSlider);
+startSlider();
 
 // stop the slider when pointer is over the slides
 slider.addEventListener("mouseenter", stopSlider);
@@ -51,7 +47,7 @@ prevNav.addEventListener("click", () => {
 });
 
 function startSlider() {
-  intervalId = setInterval(showNextSlide, 2000); // 2secs
+  intervalId = setInterval(showNextSlide, 10000); // 10s
 }
 
 function stopSlider() {
@@ -84,15 +80,11 @@ function updateSlides() {
     const offset = (index - currentIndex) * 100;
     slide.style.transform = `translateX(${offset}%)`;
 
-    slide.classList.remove("active");
+    slide.classList.toggle("active", index === currentIndex);
   });
-
-  slides[currentIndex].classList.add("active");
 }
 
 function updateDots() {
   const dots = document.querySelectorAll(".dot");
-  [...dots].map((dot) => dot.classList.remove("active"));
-
-  dots[currentIndex].classList.add("active");
+  [...dots].map((dot, i) => dot.classList.toggle("active", i === currentIndex));
 }
